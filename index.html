@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Memodown</title>
+        <link rel="icon" type="image/x-icon" href="icon.ico">
+        <meta name="description" content="Markdown notetaking app">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/f3d3008162.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="top">
+        <div class="header"><i class="fa-regular fa-note-sticky"></i> Memodown</div>
+
+            <button id="newBtn" class="top-button"><i class="fa-solid fa-plus"></i><br>New</button>
+            <button id="importBtn" class="top-button"><i class="fa-solid fa-file-import"></i><br>Import</button>
+            <div class="dropdown">
+                <button id="settingsBtn" class="top-button" onclick="toggleDropdown('settingsDropdown')"><i class="fa-solid fa-gear"></i><br>Settings</button>
+                <div class="dropdown-content" id="settingsDropdown">
+                    <input type="file" id="importJsonFile" accept=".json" hidden>
+                    <button id="importJsonBtn"><i class="fa-solid fa-file-import"></i> Import Save</button>
+                    <button id="exportJsonBtn"><i class="fa-solid fa-file-export"></i> Export Save</button>
+                    <hr>
+                    <div class="dropdown" style="width:100%;">
+                        <button id="deleteBtn" class="dropdown-listing danger" onclick="toggleDropdown('deleteDropdown')"><i class="fa-solid fa-trash"></i> Delete Everything</button>
+                        <div id="deleteDropdown" class="dropdown-content">
+                            <form name="delete-form" autocomplete="off">
+                                <input type="text" id="delete-title" placeholder="Type 'delete' to confirm">
+                                <input type="submit" value="Delete!">
+                            </form>
+                        </div>
+                </div>
+            </div>
+        </div>
+        </div>
+
+        <div class="list" id="list">
+        </div>
+
+        <script src="home.js"></script>
+    </body>
+</html>

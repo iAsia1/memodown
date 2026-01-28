@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Memodown</title>
+        <link rel="icon" href="icon.png">
+        <meta name="description" content="Markdown notetaking app">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://kit.fontawesome.com/f3d3008162.js" crossorigin="anonymous"></script>
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css">
+    </head>
+
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="top-editor">
+            <div class="header">Loading...</div>
+
+            <div class="right-align" style="display:flex;align-items:center;">
+                <span style="color:gray;"><i>...</i></span>
+
+                <div class="dropdown" style="float:right;">
+                    <button id="moreBtn" class="editor-btn" onclick="toggleDropdown('moreDropdown')" style="color:dimgray;background:none;border:none;text-align:right;padding:0px;"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+
+                    <div id="moreDropdown" class="dropdown-content" style="right: 0;left: auto;">
+                        <button id="exportBtn"><i class="fa-solid fa-download"></i> Export MD</button>
+                        <button id="exportHtmlBtn"><i class="fa-solid fa-download"></i> Export HTML</button>
+                        <hr>
+                        <div class="dropdown" style="width:100%;">
+                            <button id="deleteBtn" class="dropdown-listing danger" onclick="toggleDropdown('deleteDropdown')"><i class="fa-solid fa-trash"></i> Delete</button>
+                            <div id="deleteDropdown" class="dropdown-content">
+                                <form name="delete-form" autocomplete="off">
+                                    <input type="text" id="delete-title" placeholder="Type 'delete' to confirm">
+                                    <input type="submit" value="Delete!">
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+        <div class="top-bar">
+            <div class="left-align">
+            <button id="boldBtn" data-insert="**" data-wrap="**"><i class="fa-solid fa-bold"></i></button>
+            <button id="italicsBtn" data-insert="*" data-wrap="*"><i class="fa-solid fa-italic"></i></button>
+            <button id="underlineBtn" data-insert="==" data-wrap="=="><i class="fa-solid fa-underline"></i></button>
+            <button id="strikeBtn" data-insert="~~" data-wrap="~~"><i class="fa-solid fa-strikethrough"></i></button>
+
+            <span style="color:gray;">|</span>
+
+            <div class="dropdown">
+            <button id="headerDropdownBtn" class="dropdown-btn" onclick="toggleDropdown('headerDropdown')"><i class="fa-solid fa-header"></i><i class="fa-solid fa-caret-down"></i></button>
+                <div id="headerDropdown" class="dropdown-content">
+                    <button id="header1Btn" data-insert="# "><i class="fa-solid fa-header"></i>1</button>
+                    <button id="header2Btn" data-insert="## "><i class="fa-solid fa-header"></i>2</button>
+                    <button id="header3Btn" data-insert="### "><i class="fa-solid fa-header"></i>3</button>
+                    <button id="header4Btn" data-insert="#### "><i class="fa-solid fa-header"></i>4</button>
+                    <button id="header5Btn" data-insert="##### "><i class="fa-solid fa-header"></i>5</button>
+                    <button id="header6Btn" data-insert="###### "><i class="fa-solid fa-header"></i>6</button>
+                </div>
+            </div>
+
+            <span style="color:gray;">|</span>
+
+            <div class="dropdown">
+                <button id="listDropdownBtn" class="dropdown-btn" onclick="toggleDropdown('listDropdown')"><i class="fa-solid fa-list"></i><i class="fa-solid fa-caret-down"></i></button>
+                <div id="listDropdown" class="dropdown-content">
+                    <button id="olBtn" data-insert="1. "><i class="fa-solid fa-list-ol"></i></button>
+                    <button id="ulBtn" data-insert="- " ><i class="fa-solid fa-list-ul"></i></button>
+                    <button id="clBtn" data-insert="- [ ] "><i class="fa-solid fa-list-check"></i></button>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button id="alignDropdownBtn" class="dropdown-btn" onclick="toggleDropdown('alignDropdown')"><i class="fa-solid fa-align-left"></i><i class="fa-solid fa-caret-down"></i></button>
+                <div id="alignDropdown" class="dropdown-content">
+                    <button id="leftBtn" onclick="removeArrows()"><i class="fa-solid fa-align-left"></i></button>
+                    <button id="centerBtn" data-insert="-> " data-wrap=" <-"><i class="fa-solid fa-align-center"></i></button>
+                    <button id="rightBtn" data-insert="-> " data-wrap=" ->"><i class="fa-solid fa-align-right"></i></button>
+                    <p style="text-align:center;color:rgba(0, 0, 0, 0.5);font-size:80%">Select your text first</p>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button id="colorsDropdownBtn" class="dropdown-btn" onclick="toggleDropdown('colorDropdown')"><i class="fa-solid fa-fill-drip"></i><i class="fa-solid fa-caret-down"></i></button>
+                <div id="colorDropdown" class="dropdown-content">
+                    <form name="color-form" class="colorform">
+                        <input type="color" id="color-code" value="#000000">
+                        <input type="text" id="color-text" placeholder="#000000">
+                        <input type="submit" id="color-submit" value="Create">
+                    </form>
+                    <p style="text-align:center;color:rgba(0, 0, 0, 0.5);font-size:80%">You can also use <a href="https://www.w3schools.com/colors/colors_groups.asp">color names</a></p>
+                    <!--- HTML Dump 2 - Color Dropdown List
+                    https://rentry.co/ne93yrq9 -->
+                </div>
+            </div>
+
+            <span style="color:gray;">|</span>
+
+            <div class="dropdown">
+                <button id="linkBtn" class="editor-btn" onclick="toggleDropdown('linkDropdown')"><i class="fa-solid fa-link"></i></button>
+                <div id="linkDropdown" class="dropdown-content">
+                    <form name="link-form" autocomplete="off">
+                        <input type="url" id="link-url" placeholder="URL">
+                        <input type="text" id="link-text" placeholder="Text">
+                        <input type="submit" value="Create">
+                    </form>
+                </div>
+            </div>
+
+            <div class="dropdown">
+                <button id="imgBtn" class="editor-btn" onclick="toggleDropdown('imgDropdown')"><i class="fa-solid fa-image"></i></button>
+                <div id="imgDropdown" class="dropdown-content">
+                    <form id="imgform" name="image-form" autocomplete="off">
+                        <input type="url" id="img-url" placeholder="Image URL">
+                        <input type="text" id="img-alt" placeholder="Alt Text (optional)">
+                        <input type="submit" value="Create">
+                    </form>
+                </div>
+                    <!-- HTML Dump 1 - Image File Submission
+                     https://rentry.co/5kwkdmkt -->
+            </div>
+
+            <div class="dropdown">
+                <button id="vidBtn" class="editor-btn" onclick="toggleDropdown('vidDropdown')"><i class="fa-solid fa-video"></i></button>
+                <div id="vidDropdown" class="dropdown-content">
+                    <form name="vid-form" autocomplete="off">
+                        <input type="url" id="yt-url" placeholder="YouTube URL">
+                        <input type="submit" value="Create">
+                    </form>
+                </div>
+            </div>
+
+            <span style="color:gray;">|</span>
+
+            <button id="codeBtn" data-insert="```" data-wrap="```"><i class="fa-solid fa-code"></i></button>
+            <button id="quoteBtn" data-insert="> "><i class="fa-solid fa-quote-right"></i></button>
+        </div>
+
+        <div class="right-align">
+            <button id="saveBtn" class="safe" style="width:100px;"><i class="fa-solid fa-floppy-disk"></i> Save</button> <!--make this button change color when there are unsaved changes-->
+        </div>
+        </div>
+
+        <div class="editor">
+            <div class="edit-pane">
+                <textarea id="edit-pane" placeholder="Write here in Markdown text"></textarea>
+            </div>
+            <div id="preview-pane"></div>
+        </div>
+
+        <div class="right-align" style="margin-top:0.5em;text-align:right;">
+            <button onclick="location.href = 'index.html';" style="width:100px;"><i class="fa-solid fa-home"></i> Home</button> 
+        </div>
+
+        <script src="https://cdn.jsdelivr.net/npm/marked/lib/marked.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/dompurify/dist/purify.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/marked-alert/dist/index.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/marked-emoji/dist/index.umd.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/shiki@latest/dist/shiki.min.js"></script>
+
+        <script src="editor.js"></script>
+    </body>
+</html>

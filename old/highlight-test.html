@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Marked + Highlight.js Demo</title>
+  
+  <!-- Highlight.js CSS theme -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/styles/github.min.css">
+  
+  <style>
+    body {
+      display: flex;
+      height: 100vh;
+      margin: 0;
+      font-family: sans-serif;
+    }
+    textarea {
+      width: 50%;
+      padding: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      border: none;
+      border-right: 1px solid #ccc;
+      resize: none;
+    }
+    #preview {
+      width: 50%;
+      padding: 10px;
+      overflow: auto;
+    }
+    pre {
+      background: #f6f8fa;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Markdown editor -->
+  <textarea id="editor" placeholder="Type Markdown with code blocks here..."></textarea>
+
+  <!-- Preview pane -->
+  <div id="preview"></div>
+
+  <!-- Libraries -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/highlightjs/cdn-release@11.11.1/build/highlight.min.js"></script>
+
+  <script>
+    const editor = document.getElementById('editor');
+    const preview = document.getElementById('preview');
+
+    function renderPreview() {
+      // Convert Markdown to HTML
+      preview.innerHTML = marked.parse(editor.value);
+
+      // Highlight all code blocks
+      preview.querySelectorAll('pre code').forEach((block) => {
+        hljs.highlightElement(block);
+      });
+    }
+
+    // Initial render
+    renderPreview();
+
+    // Update preview on input
+    editor.addEventListener('input', renderPreview);
+  </script>
+</body>
+</html>

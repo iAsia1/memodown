@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>markdown index</title>
+        <meta name="description" content="an index of your markdown notes">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+
+<body>
+<h2 id="filename"></h2>    
+
+
+<div id="panes">
+<textarea id="markdown" rows="20" cols="60"></textarea>
+<div id="preview"></div>
+</div>
+
+<div id="buttons">
+<button onclick="saveFile()">Save</button>
+<button onclick="goHome()">Home</button>
+</div>
+<script>
+  // Helper functions same as index.html
+  function getFiles() {
+    try {
+      return JSON.parse(localStorage.getItem("mdFiles")) || {};
+    } catch {
+      localStorage.removeItem("mdFiles");
+      return {};
+    }
+  }
+
+  function saveFiles(files) {
+    localStorage.setItem("mdFiles", JSON.stringify(files));
+  }
+
+  const fileName = localStorage.getItem("currentFile");
+  const files = getFiles();
+
+  if (!fileName || !(fileName in files)) {
+    location.href = "index.html";
+  }
+
+  const textarea = document.getElementById("markdown");
+  const preview = document.getElementById("preview");
+  const nameDisplay = document.getElementById("filename");
+
+  nameDisplay.textContent = fileName;
+  textarea.value = files[fileName];
+
+  function saveFile() {
+    const files = getFiles();
+    files[fileName] = textarea.value;
+    saveFiles(files);
+    alert("Saved.");
+  }
+
+  function goHome() {
+    localStorage.removeItem("currentFile");
+    location.href = "index.html";
+  }
+
+  // Simple markdown preview
+  function render() {
+    let text = textarea.value;
+
+    text = text
+      .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+      .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+      .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+      .replace(/\*\*(.*?)\*\*/gim, "<strong>$1</strong>")
+      .replace(/\*(.*?)\*/gim, "<em>$1</em>")
+      .replace(/\[(.*?)\]\((.*?)\)/gim, "<a href='$2'>$1</a>")
+      .replace(/\n/gim, "<br>");
+
+    preview.innerHTML = text;
+  }
+
+  textarea.addEventListener("input", render);
+  render();
+</script>
+
+</body>
+</html>
